@@ -1,0 +1,32 @@
+CS 307:Software Engineering I
+CS 314:Numerical Methods
+CS 334:Fundamentals of Computer Graphics
+CS 348:Information Systems 
+CS 352:Compilers
+CS 353:Principles of Concurrency and Parallelism
+CS 354:Operating Systems
+CS 355:Intro to Cryptography
+CS 373:Data Mining & Machine Learning
+CS 381:Intro to AI
+CS 390:Web or Virtual Reality Applications
+CS 407:Software Engineering Senior Project
+CS 408:Software Testing
+CS 422:Networks
+CS 426:Computer Security
+CS 434:Advanced Computer Graphics
+CS 448:Relational Database Systems
+CS 456:Programming Languages
+CS 471:Intro to Artificial Intelligence
+CS 473:Web Information Search and Management
+CS 478:Intro to Bioinformatics
+CS 483:Theory of Computation
+CS 489:Embedded Systems
+CS 490:Distributed Systems
+CS 491:Project
+CS 497:Honors Research Project
+CS 514:Numerical Analysis
+CS 515:Numerical Linear Algebra
+MA 366:Ordinary Differential Equations
+MA 266:Ordinary Differential Equations
+STAT 512:Applied Linear Regression
+MA 416:Probability
