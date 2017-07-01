@@ -7,7 +7,7 @@ CS 353:Principles of Concurrency and Parallelism
 CS 354:Operating Systems
 CS 355:Intro to Cryptography
 CS 373:Data Mining & Machine Learning
-CS 381:Intro to AI
+CS 381:Intro to Analysis of Algorithms
 CS 390:Web or Virtual Reality Applications
 CS 407:Software Engineering Senior Project
 CS 408:Software Testing

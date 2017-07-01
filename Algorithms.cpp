@@ -25,7 +25,6 @@ bool checkCounters (int * counters){
 			return false;
 
 	}
-	printf("termination\n");
 	return true;
 
 }
@@ -54,11 +53,13 @@ int countActiveColors(int * argv, int argc, Node * course){
 	while (ln != l->tail){
 		cobol = ln->edge->color;
 		for (int i = 0; i < argc; i++)
-			if (cobol == argv[i])
+            if (cobol == argv[i]){
 				++counter;
+            }
 
 		ln = ln->next;
 	}
+
 	return counter;
 }
 
@@ -78,7 +79,6 @@ int * getColors(Node * course){
 		++r[j];
 		ln = ln->next;
 	}
-
 	return r;
 
 }
@@ -165,15 +165,19 @@ void computeCourses(Tree * tracks, int * argv, int argc){
 
 	if (checkCounters(counters)) goto terminal;
 	for (int i = 0;i < argc; i++){
+        printf("%d\n", argc-i);
 		for (int j = 0; j < argc; j++){
 			l = tracks->nodes[argv[i]]->edgeList;
 			ln = l->head->next;
 
 			while (ln != l->tail){
 				node = ln->edge->courseNode;
-				if ((ln->edge->twinNode != NULL ||  !ln->edge->req) && (countActiveColors(argv, argc, node) == argc - i)      ){ 
+                
+				if ((ln->edge->twinNode != NULL ||  !ln->edge->req) && (countActiveColors(argv, argc, node) == argc - i)      ){
+                    printf("%s, %d\n", node->course->courseString.c_str(), countActiveColors(argv, argc, node));
+                    
 					if (lisp->add(ln->edge->courseNode->course)){
-						printf("%s\n", ln->edge->courseNode->course->courseString.c_str());
+						//printf("%s\n", ln->edge->courseNode->course->courseString.c_str());
 						int * cameron = getColors(ln->edge->courseNode);
 						decrementColors(counters, cameron);
 						delete [] cameron;

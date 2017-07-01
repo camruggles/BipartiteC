@@ -72,6 +72,7 @@ Edge::Edge(Node * tr, Node * course, bool b){
 	twinNode = NULL;
 	req = b;
 	color = (COLOR) getTrackNumber(strdup(tr->track->trackString.c_str()));
+    //printf("%s, %d, %d\n", courseNode->course->courseString.c_str(), getTrackNumber(strdup(tr->track->trackString.c_str())), color);
 
 
 }
@@ -81,6 +82,9 @@ Edge::Edge(Node * tr, Node * course, Node * altCourse, bool b){
 	twinNode = altCourse;
 	req = b;
 	trackNode = tr;
+    color = (COLOR) getTrackNumber(strdup(tr->track->trackString.c_str()));
+    //printf("%s, %d, %d\n", courseNode->course->courseString.c_str(), getTrackNumber(strdup(tr->track->trackString.c_str())), color);
+    
 
 }
 

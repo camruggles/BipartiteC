@@ -17,7 +17,7 @@ enum Side{
 };
 
 enum COLOR{
-	CSE = 0, CGV, MI, DBIS, FCS, SoftEngr, Systems, PL, Security
+	CSE = 0, CGV=1, MI=2, DBIS=3, FCS=4, SoftEngr=5, Systems=6, PL=7, Security=8
 
 };
 

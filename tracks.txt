@@ -1,7 +1,7 @@
 CSE:2
 CGV:2
-DBIS:4
 MI:4
+DBIS:4
 FCS:2
 SoftEngr:4
 Systems:3

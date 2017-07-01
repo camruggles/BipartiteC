@@ -13,30 +13,32 @@ Node * getNodeByCourse(Tree * courses, int num);
 int main(int argc, char ** argv){
 	int size = 0;
 	for (int i = 1; i < argc; i++){
-//		printf("%s\n", argv[i]);
+		//		printf("%s\n", argv[i]);
 		printf("%d\n", getTrackNumber(argv[i]));
 		if (getTrackNumber(argv[i]) == -1){
 			//printf("Error\n");
 			return -1;
-			
+
 		}
 		++size;
-	
-	
+
+
 	}
 
 	int colors[size];
 	for (int i = 1; i < size+1; i++){
 		colors[i-1] = getTrackNumber(argv[i]);
-	
+
 	}
-	
+
 	//Initiates original edge list, as well as the hash trees
 	List * list = new List();
 	Tree * courses = new Tree();
 	Tree * tracks = new Tree();
 	courses->side = COURSE;
 	tracks->side = TRACK;
+
+
 
 	//Initiates double tree and connects trees together
 	DoubleTree core;
@@ -48,13 +50,14 @@ int main(int argc, char ** argv){
 	createTrackNodes(tracks);
 
 	//Prints out the tracks and their pointers
-//	for (int i = 0; i < 9; i++){
-		//printf("%s, %d : \t\t %p\n", tracks->nodes[i]->track->trackString.c_str(), tracks->nodes[i]->track->reqCounter,(void*)tracks->nodes[i]);	
-//	}		
+	//	for (int i = 0; i < 9; i++){
+	//printf("%s, %d : \t\t %p\n", tracks->nodes[i]->track->trackString.c_str(), tracks->nodes[i]->track->reqCounter,(void*)tracks->nodes[i]);	
+	//	}		
 	printf("\n\n");
 
 	//Creates the Edges of the Bipartite Graph
 	readEdges(courses, tracks, list);
+	printf("checkpoint echo charlie\n");
 	//list->printc();
 
 	computeCourses(tracks, colors, size);
@@ -70,7 +73,7 @@ void createCourseNodes(Tree * courses)
 	char * number; // the course number
 	char * courseName; // the couse name string
 	int num; // the number derived from the character pointer above
-	char buffer[50]; //an input buffer
+	char buffer[100]; //an input buffer
 
 	/*
 	   Loop Invariant:
@@ -78,7 +81,7 @@ void createCourseNodes(Tree * courses)
 	   As long as i+1 != n, then it will read in i+1 after i to get informationa bout the course
 	   When the file is empty, fgets will return null, and the loop will end
 	 */
-	while (fgets(buffer, 50, f) != NULL){
+	while (fgets(buffer, 100, f) != NULL){
 
 		//parsing the information
 		prefix = strtok(buffer, " ");
@@ -93,11 +96,9 @@ void createCourseNodes(Tree * courses)
 			s = CS;
 		else if (!strcmp(prefix, "STAT"))
 			s = STAT;
-
 		//inserts and initializes the course vertice in the hashtable
 		courses->nodes[num] = new Node(new Course(courseName, num, s));
-	//	printf("%s : %p\n", number, (void*)courses->nodes[num]);
-
+		//	printf("%s : %p\n", number, (void*)courses->nodes[num]);
 	}
 	//printf("\n\n");
 	fclose(f);
@@ -122,6 +123,7 @@ void createTrackNodes(Tree * tracks)
 		reqCount = strtok(NULL, "\0\n");
 		reqs = atoi(reqCount);
 		//creates every track node with the new track with the given track names
+
 		tracks->nodes[i] = new Node(new Track(trackName));		
 		tracks->nodes[i]->track->reqCounter = reqs;
 
