@@ -16,6 +16,12 @@ Node * getNodeByCourse(Tree * courses, int num){
 }
 
 
+/*
+Used in the main computation
+Checks to see if enough electives have been selected to complete a track.
+
+
+*/
 bool checkCounters (int * counters){
 	for (int i = 0; i < 9; i++){
 		if (counters[i] > 0)
@@ -26,6 +32,12 @@ bool checkCounters (int * counters){
 
 }
 
+/*
+takes a int[] counters, which contains an array that dictates how many electives are still needed to complete a course
+and decrements counters by int[] dec, 
+all fields in dec[] are 0 or 1
+the array subtraction decrements by 0 or 1 at each index for each course
+*/
 void decrementColors(int * counters, int * dec){
 	for (int i = 0; i < 9; i++){
 		counters[i] -= dec[i];
@@ -41,7 +53,13 @@ void decrementColors(int * counters, int * dec){
 
 
 
+/*
+based on the track input from the commmand line, this will determine how many active tracks that a given course falls under
 
+this is essentially the degree of a course node in the bipartite graph.  A higher degree node is selected sooner since it will fulfill requirements for more tracks
+returns an int witht he number of active tracks that this course satisfies.
+an active track is one of the tracks entered at command line
+*/
 int countActiveColors(int * argv, int argc, Node * course){
 	List * l = course->edgeList;
 	ListNode * ln = l->head->next;
@@ -60,6 +78,15 @@ int countActiveColors(int * argv, int argc, Node * course){
 	return counter;
 }
 
+
+/*
+this will return a int[] of size 9;
+the indices of the array correspond to a track
+if a track is involved with the course, than the int value at that tracks index will be a 1.
+
+The enumeration for the tracks can be found in structs.cpp or structs.h
+
+*/
 int * getColors(Node * course){
 	int * r = new int[9];
 
@@ -99,19 +126,21 @@ void computeCourses(Tree * tracks, int * argv, int argc){
 
 	//implement a counter array and read the counters from tracks to setup countdowns
 
+	//this loop adds required courses to the mix
+
+	//this for loop iterates through the selected tracks
 	for (int i = 0; i < argc; i++){
 		l = tracks->nodes[argv[i]]->edgeList;
 		ln = l->head->next;
-
+		//this loop iterates through courses in a track
 		while (ln != l->tail){
 
-			if (ln->edge->req /*&& ln->edge->twinNode==NULL*/){ 
-				//printf("%p\n", (void*)ln->edge->twinNode);
-
+			if (ln->edge->req ){ 
+				//this branch executes if the course isn't an alternative situation, 
 				if (ln->edge->twinNode == NULL){	
 
 					if (lisp->add(ln->edge->courseNode->course)){
-						printf("%s\n", ln->edge->courseNode->course->courseString.c_str());
+						printf("%s, %d\n", ln->edge->courseNode->course->courseString.c_str(), countActiveColors(argv, argc, ln->edge->courseNode));
 						int * cameron = getColors(ln->edge->courseNode);
 						decrementColors(counters, cameron);
 						delete [] cameron;
@@ -119,63 +148,70 @@ void computeCourses(Tree * tracks, int * argv, int argc){
 
 					}
 				}
+				//this branch executes if the course has an alternative choice
 				else{
+					//if there are alternative courses, (for SoftEngr track, you can use compilers or OS as the track elective)
 					a = countActiveColors(argv, argc, ln->edge->courseNode);
 					b = countActiveColors(argv, argc, ln->edge->twinNode);
+				//these code blocks execute based on which alternative course has a greater degree
 					if (a > b) {
 						if (lisp->add(ln->edge->courseNode->course)){
 
-							printf("%s\n", ln->edge->courseNode->course->courseString.c_str());
+							printf("%s, %d\n", ln->edge->courseNode->course->courseString.c_str(), a);
 							int * cameron = getColors(ln->edge->courseNode);
 							decrementColors(counters, cameron);
 							delete [] cameron;
-
-
 						}
 
 					}
 					else {
 						if (lisp->add(ln->edge->courseNode->course)){
-							printf("%s\n", ln->edge->courseNode->course->courseString.c_str());
+							printf("%s, %d\n", ln->edge->courseNode->course->courseString.c_str(), b);
 							int * cameron = getColors(ln->edge->courseNode);
 							decrementColors(counters, cameron);
 							delete [] cameron;
-
-
 						}
 
 					}
+
+					//this is a double increment so it skips an alternative track and moves on to the next course
 					ln = ln->next;
-
 				}
-				//test first node to see if it has other colors and count the degree
-				//test second node to see if its required for other colors and count the degree
-				//find the max between the two and add the winner to the list.
-
-
-
 			}	
-
 			ln = ln->next;
 		}
 	}
-
+//checks to see if all of the required courses satisfy all the elective requirements
 	if (checkCounters(counters)) goto terminal;
+
+	//this iterates through several times to get courses of a higher degree added to the list first
 	for (int i = 0;i < argc; i++){
 		printf("%d\n", argc-i);
+
+		//this for loop iterates through the tracks
 		for (int j = 0; j < argc; j++){
+
+			//this measure ensures that a track is skipped as soon as all the electives are met
 			if (counters[ argv[j] ] <= 0){
 				continue;
 			}
+
 			l = tracks->nodes[argv[j]]->edgeList;
 			ln = l->head->next;
 
+			//this while loop iterates through courses in a track
 			while (ln != l->tail){
+				
 				node = ln->edge->courseNode;
+				//this also makes sure that a track is skipped once enough electives are met
 				if (counters[ argv[j]] <= 0) break;
+				
+				//tests to see if it is an alternative course that wasn't added, or a regular elective course
+				//also tests to make sure it has the highest node degree
 				if ((ln->edge->twinNode != NULL ||  !ln->edge->req) && (countActiveColors(argv, argc, node) == argc - i)      ){
-					printf("%s, %d\n", node->course->courseString.c_str(), countActiveColors(argv, argc, node));
 
+					//this will add the course to the list
+					printf("%s, %d\n", node->course->courseString.c_str(), countActiveColors(argv, argc, node));
 					if (lisp->add(ln->edge->courseNode->course)){
 						//printf("%s\n", ln->edge->courseNode->course->courseString.c_str());
 						int * cameron = getColors(ln->edge->courseNode);
