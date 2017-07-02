@@ -11,20 +11,37 @@ Node * getNodeByTrackName(Tree * tracks, char * c);
 Node * getNodeByCourse(Tree * courses, int num);
 
 int main(int argc, char ** argv){
+/*
+	char i[] = {"Enter the tracks you want to obtain and the output will be the minimum courses required to get that track.\n
+			The inputs for each track to use in the command line are as follows:\n
+			\n
+			\tMachine Intelligence: MI\n
+			\tComputational Science and Engineering: CSE\n
+			\tDatabase and Information Search: DBIS\n
+			\tSoftware Engineering: SoftEngr\n
+			\tSystems: Systems\n
+			\tSecurity: Security\n
+			\tFoundations of Computer Science\n
+			\tComputer Graphics and Visualization\n
+			\tProgramming Languages: PL\n"};
+
+	if (argc == 1){ 
+		//printf("%s\n", i);
+		return -1;
+	}
+*/
+	//prepares an array of the tracks that are inputs
 	int size = 0;
+	//determines if inputs are valid and counts number of valid arguments
 	for (int i = 1; i < argc; i++){
-		//		printf("%s\n", argv[i]);
 		printf("%d\n", getTrackNumber(argv[i]));
 		if (getTrackNumber(argv[i]) == -1){
-			//printf("Error\n");
 			return -1;
-
 		}
 		++size;
-
-
 	}
 
+	//creates a separate array with the enumerated types for tracks and uses them to transfer information to algorithm later
 	int colors[size];
 	for (int i = 1; i < size+1; i++){
 		colors[i-1] = getTrackNumber(argv[i]);
@@ -38,27 +55,12 @@ int main(int argc, char ** argv){
 	courses->side = COURSE;
 	tracks->side = TRACK;
 
-
-
-	//Initiates double tree and connects trees together
-	DoubleTree core;
-	core.leftTree = tracks;
-	core.rightTree = courses;
-
 	//Creates Vertices of Bipartite Graph
 	createCourseNodes(courses);
 	createTrackNodes(tracks);
 
-	//Prints out the tracks and their pointers
-	//	for (int i = 0; i < 9; i++){
-	//printf("%s, %d : \t\t %p\n", tracks->nodes[i]->track->trackString.c_str(), tracks->nodes[i]->track->reqCounter,(void*)tracks->nodes[i]);	
-	//	}		
-	printf("\n\n");
-
 	//Creates the Edges of the Bipartite Graph
 	readEdges(courses, tracks, list);
-	printf("checkpoint echo charlie\n");
-	//list->printc();
 
 	computeCourses(tracks, colors, size);
 
@@ -88,7 +90,8 @@ void createCourseNodes(Tree * courses)
 		number = strtok(NULL, ":");
 		num = atoi(number);
 		courseName = strtok(NULL, "\n");
-
+		
+		//parsing symbol information
 		symbol s = CS;
 		if (!strcmp(prefix, "MA"))
 			s = MA;	
@@ -96,11 +99,11 @@ void createCourseNodes(Tree * courses)
 			s = CS;
 		else if (!strcmp(prefix, "STAT"))
 			s = STAT;
+
 		//inserts and initializes the course vertice in the hashtable
 		courses->nodes[num] = new Node(new Course(courseName, num, s));
-		//	printf("%s : %p\n", number, (void*)courses->nodes[num]);
 	}
-	//printf("\n\n");
+
 	fclose(f);
 
 }
@@ -110,7 +113,7 @@ void createTrackNodes(Tree * tracks)
 {
 	FILE * f = fopen("tracks.txt", "r");//opens file
 	tracks->nodes = new Node*[9]; // creates hash table
-	char buffer[15]; // input field
+	char buffer[15]; // input fields
 	char * trackName;
 	char * reqCount;
 	int reqs;
@@ -200,7 +203,6 @@ void readEdges(Tree * courses, Tree * tracks, List * list){
 			edge->twinNode = altEdge->courseNode;
 			alt = false;
 			trigger = false;
-			//printf("%s, %s, %p, %p\n", altEdge->courseNode->course->courseString.c_str(), edge->courseNode->course->courseString.c_str(), (void*)altEdge->courseNode, (void*)edge->courseNode);
 		}
 		//adds the edges to the appropriate lists
 		c->add(edge);
