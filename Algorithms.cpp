@@ -167,7 +167,7 @@ void computeCourses(Tree * tracks, int * argv, int argc){
 	for (int i = 0;i < argc; i++){
         printf("%d\n", argc-i);
 		for (int j = 0; j < argc; j++){
-			l = tracks->nodes[argv[i]]->edgeList;
+			l = tracks->nodes[argv[j]]->edgeList;
 			ln = l->head->next;
 
 			while (ln != l->tail){

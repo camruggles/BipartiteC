@@ -79,9 +79,7 @@ SoftEngr:A:CS:354
 SoftEngr:R:CS:408
 SoftEngr:R:CS:407
 SoftEngr:E:CS:348
-SoftEngr:E:CS:352
 SoftEngr:E:CS:353
-SoftEngr:E:CS:354
 SoftEngr:E:CS:381
 SoftEngr:E:CS:422
 SoftEngr:E:CS:426
