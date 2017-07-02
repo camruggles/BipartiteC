@@ -1,8 +1,5 @@
 #include "Structs.h"
 
-Node * getNodeByTrackName(Tree * tracks, char * c);
-Node * getNodeByCourse(Tree * courses, int num);
-//int getTrackNumber(char * c);
 
 Node * 
 getNodeByTrackName(Tree * tracks, char * c){
