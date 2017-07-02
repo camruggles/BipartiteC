@@ -11,7 +11,7 @@ Node * getNodeByTrackName(Tree * tracks, char * c);
 Node * getNodeByCourse(Tree * courses, int num);
 
 int main(int argc, char ** argv){
-	printf("Why is cryptography double counted between DBIS and Systems, type in ./a.out DBIS Systems");
+	printf("Why is cryptography double counted between DBIS and Systems, type in ./a.out DBIS Systems\n");
 /*
 	char i[] = {"Enter the tracks you want to obtain and the output will be the minimum courses required to get that track.\n
 			The inputs for each track to use in the command line are as follows:\n

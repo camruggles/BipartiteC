@@ -17,11 +17,11 @@ Node * getNodeByCourse(Tree * courses, int num){
 
 
 /*
-Used in the main computation
-Checks to see if enough electives have been selected to complete a track.
+   Used in the main computation
+   Checks to see if enough electives have been selected to complete a track.
 
 
-*/
+ */
 bool checkCounters (int * counters){
 	for (int i = 0; i < 9; i++){
 		if (counters[i] > 0)
@@ -33,11 +33,11 @@ bool checkCounters (int * counters){
 }
 
 /*
-takes a int[] counters, which contains an array that dictates how many electives are still needed to complete a course
-and decrements counters by int[] dec, 
-all fields in dec[] are 0 or 1
-the array subtraction decrements by 0 or 1 at each index for each course
-*/
+   takes a int[] counters, which contains an array that dictates how many electives are still needed to complete a course
+   and decrements counters by int[] dec, 
+   all fields in dec[] are 0 or 1
+   the array subtraction decrements by 0 or 1 at each index for each course
+ */
 void decrementColors(int * counters, int * dec){
 	for (int i = 0; i < 9; i++){
 		counters[i] -= dec[i];
@@ -46,20 +46,21 @@ void decrementColors(int * counters, int * dec){
 
 	for (int i = 0; i < 9; i++){
 		printf("%d: %d |||| ", i, counters[i]);
+
 	}
-	printf("\n");
+	printf("\n\n\n");
 
 }
 
 
 
 /*
-based on the track input from the commmand line, this will determine how many active tracks that a given course falls under
+   based on the track input from the commmand line, this will determine how many active tracks that a given course falls under
 
-this is essentially the degree of a course node in the bipartite graph.  A higher degree node is selected sooner since it will fulfill requirements for more tracks
-returns an int witht he number of active tracks that this course satisfies.
-an active track is one of the tracks entered at command line
-*/
+   this is essentially the degree of a course node in the bipartite graph.  A higher degree node is selected sooner since it will fulfill requirements for more tracks
+   returns an int witht he number of active tracks that this course satisfies.
+   an active track is one of the tracks entered at command line
+ */
 int countActiveColors(int * argv, int argc, Node * course){
 	List * l = course->edgeList;
 	ListNode * ln = l->head->next;
@@ -70,23 +71,27 @@ int countActiveColors(int * argv, int argc, Node * course){
 		for (int i = 0; i < argc; i++)
 			if (cobol == argv[i]){
 				++counter;
+				printf("%d, ", cobol);
 			}
 
 		ln = ln->next;
 	}
+	printf(" - %s", course->course->courseString.c_str());
+	printf(" : %d", counter);
+	printf("\n");
 
 	return counter;
 }
 
 
 /*
-this will return a int[] of size 9;
-the indices of the array correspond to a track
-if a track is involved with the course, than the int value at that tracks index will be a 1.
+   this will return a int[] of size 9;
+   the indices of the array correspond to a track
+   if a track is involved with the course, than the int value at that tracks index will be a 1.
 
-The enumeration for the tracks can be found in structs.cpp or structs.h
+   The enumeration for the tracks can be found in structs.cpp or structs.h
 
-*/
+ */
 int * getColors(Node * course){
 	int * r = new int[9];
 
@@ -112,6 +117,7 @@ int * getColors(Node * course){
 //getColors();
 void computeCourses(Tree * tracks, int * argv, int argc){
 	Stack * lisp = new Stack();
+	printf("\n\n");
 	List * l;
 	ListNode * ln;
 	Node * node;
@@ -142,10 +148,10 @@ void computeCourses(Tree * tracks, int * argv, int argc){
 					if (lisp->add(ln->edge->courseNode->course)){
 						printf("%s, %d\n", ln->edge->courseNode->course->courseString.c_str(), countActiveColors(argv, argc, ln->edge->courseNode));
 						int * cameron = getColors(ln->edge->courseNode);
+						for (int i = 0; i < 9; i++) printf("%d, ", cameron[i]);
+						printf("\n");
 						decrementColors(counters, cameron);
 						delete [] cameron;
-
-
 					}
 				}
 				//this branch executes if the course has an alternative choice
@@ -153,21 +159,26 @@ void computeCourses(Tree * tracks, int * argv, int argc){
 					//if there are alternative courses, (for SoftEngr track, you can use compilers or OS as the track elective)
 					a = countActiveColors(argv, argc, ln->edge->courseNode);
 					b = countActiveColors(argv, argc, ln->edge->twinNode);
-				//these code blocks execute based on which alternative course has a greater degree
+					//these code blocks execute based on which alternative course has a greater degree
 					if (a > b) {
 						if (lisp->add(ln->edge->courseNode->course)){
 
 							printf("%s, %d\n", ln->edge->courseNode->course->courseString.c_str(), a);
 							int * cameron = getColors(ln->edge->courseNode);
+							for (int i = 0; i < 9; i++) printf("%d, ", cameron[i]);
+							printf("\n");
 							decrementColors(counters, cameron);
 							delete [] cameron;
 						}
 
 					}
 					else {
-						if (lisp->add(ln->edge->courseNode->course)){
-							printf("%s, %d\n", ln->edge->courseNode->course->courseString.c_str(), b);
-							int * cameron = getColors(ln->edge->courseNode);
+						if (lisp->add(ln->edge->twinNode->course)){
+							printf("%s, %d\n", ln->edge->twinNode->course->courseString.c_str(), b);
+
+							int * cameron = getColors(ln->edge->twinNode);
+							for (int i = 0; i < 9; i++) printf("%d, ", cameron[i]);
+							printf("\n");
 							decrementColors(counters, cameron);
 							delete [] cameron;
 						}
@@ -181,7 +192,7 @@ void computeCourses(Tree * tracks, int * argv, int argc){
 			ln = ln->next;
 		}
 	}
-//checks to see if all of the required courses satisfy all the elective requirements
+	//checks to see if all of the required courses satisfy all the elective requirements
 	if (checkCounters(counters)) goto terminal;
 
 	//this iterates through several times to get courses of a higher degree added to the list first
@@ -201,11 +212,11 @@ void computeCourses(Tree * tracks, int * argv, int argc){
 
 			//this while loop iterates through courses in a track
 			while (ln != l->tail){
-				
+
 				node = ln->edge->courseNode;
 				//this also makes sure that a track is skipped once enough electives are met
 				if (counters[ argv[j]] <= 0) break;
-				
+
 				//tests to see if it is an alternative course that wasn't added, or a regular elective course
 				//also tests to make sure it has the highest node degree
 				if ((ln->edge->twinNode != NULL ||  !ln->edge->req) && (countActiveColors(argv, argc, node) == argc - i)      ){
@@ -215,6 +226,9 @@ void computeCourses(Tree * tracks, int * argv, int argc){
 					if (lisp->add(ln->edge->courseNode->course)){
 						//printf("%s\n", ln->edge->courseNode->course->courseString.c_str());
 						int * cameron = getColors(ln->edge->courseNode);
+						for (int i = 0; i < 9; i++) printf("%d, ", cameron[i]);
+						printf("\n");
+
 						decrementColors(counters, cameron);
 						delete [] cameron;
 						if (checkCounters(counters)) goto terminal;

@@ -74,8 +74,8 @@ Security:E:CS:448
 Security:E:CS:490
 Security:E:CS:489
 SoftEngr:R:CS:307
-SoftEngr:A:CS:352
 SoftEngr:A:CS:354
+SoftEngr:A:CS:352
 SoftEngr:R:CS:408
 SoftEngr:R:CS:407
 SoftEngr:E:CS:348
