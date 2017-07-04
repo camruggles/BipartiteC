@@ -45,10 +45,10 @@ void decrementColors(int * counters, int * dec){
 	}
 
 	for (int i = 0; i < 9; i++){
-		printf("%d: %d |||| ", i, counters[i]);
+		//printf("%d: %d |||| ", i, counters[i]);
 
 	}
-	printf("\n\n\n");
+	//printf("\n\n\n");
 
 }
 
@@ -71,14 +71,14 @@ int countActiveColors(int * argv, int argc, Node * course){
 		for (int i = 0; i < argc; i++)
 			if (cobol == argv[i]){
 				++counter;
-				printf("%d, ", cobol);
+				//printf("%d, ", cobol);
 			}
 
 		ln = ln->next;
 	}
-	printf(" - %s", course->course->courseString.c_str());
-	printf(" : %d", counter);
-	printf("\n");
+	//printf(" - %s", course->course->courseString.c_str());
+	//printf(" : %d", counter);
+	//printf("\n");
 
 	return counter;
 }
@@ -117,7 +117,7 @@ int * getColors(Node * course){
 //getColors();
 void computeCourses(Tree * tracks, int * argv, int argc){
 	Stack * lisp = new Stack();
-	printf("\n\n");
+	//printf("\n\n");
 	List * l;
 	ListNode * ln;
 	Node * node;
@@ -146,10 +146,10 @@ void computeCourses(Tree * tracks, int * argv, int argc){
 				if (ln->edge->twinNode == NULL){	
 
 					if (lisp->add(ln->edge->courseNode->course)){
-						printf("%s, %d\n", ln->edge->courseNode->course->courseString.c_str(), countActiveColors(argv, argc, ln->edge->courseNode));
+						//printf("%s, %d\n", ln->edge->courseNode->course->courseString.c_str(), countActiveColors(argv, argc, ln->edge->courseNode));
 						int * cameron = getColors(ln->edge->courseNode);
-						for (int i = 0; i < 9; i++) printf("%d, ", cameron[i]);
-						printf("\n");
+						//for (int i = 0; i < 9; i++) printf("%d, ", cameron[i]);
+						//printf("\n");
 						decrementColors(counters, cameron);
 						delete [] cameron;
 					}
@@ -163,10 +163,10 @@ void computeCourses(Tree * tracks, int * argv, int argc){
 					if (a > b) {
 						if (lisp->add(ln->edge->courseNode->course)){
 
-							printf("%s, %d\n", ln->edge->courseNode->course->courseString.c_str(), a);
+							//printf("%s, %d\n", ln->edge->courseNode->course->courseString.c_str(), a);
 							int * cameron = getColors(ln->edge->courseNode);
-							for (int i = 0; i < 9; i++) printf("%d, ", cameron[i]);
-							printf("\n");
+							//for (int i = 0; i < 9; i++) printf("%d, ", cameron[i]);
+							//printf("\n");
 							decrementColors(counters, cameron);
 							delete [] cameron;
 						}
@@ -174,11 +174,11 @@ void computeCourses(Tree * tracks, int * argv, int argc){
 					}
 					else {
 						if (lisp->add(ln->edge->twinNode->course)){
-							printf("%s, %d\n", ln->edge->twinNode->course->courseString.c_str(), b);
+							//printf("%s, %d\n", ln->edge->twinNode->course->courseString.c_str(), b);
 
 							int * cameron = getColors(ln->edge->twinNode);
-							for (int i = 0; i < 9; i++) printf("%d, ", cameron[i]);
-							printf("\n");
+							//for (int i = 0; i < 9; i++) printf("%d, ", cameron[i]);
+							//printf("\n");
 							decrementColors(counters, cameron);
 							delete [] cameron;
 						}
@@ -197,7 +197,7 @@ void computeCourses(Tree * tracks, int * argv, int argc){
 
 	//this iterates through several times to get courses of a higher degree added to the list first
 	for (int i = 0;i < argc; i++){
-		printf("%d\n", argc-i);
+		//printf("%d\n", argc-i);
 
 		//this for loop iterates through the tracks
 		for (int j = 0; j < argc; j++){
@@ -222,12 +222,12 @@ void computeCourses(Tree * tracks, int * argv, int argc){
 				if ((ln->edge->twinNode != NULL ||  !ln->edge->req) && (countActiveColors(argv, argc, node) == argc - i)      ){
 
 					//this will add the course to the list
-					printf("%s, %d\n", node->course->courseString.c_str(), countActiveColors(argv, argc, node));
+					//printf("%s, %d\n", node->course->courseString.c_str(), countActiveColors(argv, argc, node));
 					if (lisp->add(ln->edge->courseNode->course)){
 						//printf("%s\n", ln->edge->courseNode->course->courseString.c_str());
 						int * cameron = getColors(ln->edge->courseNode);
-						for (int i = 0; i < 9; i++) printf("%d, ", cameron[i]);
-						printf("\n");
+						//for (int i = 0; i < 9; i++) printf("%d, ", cameron[i]);
+						//printf("\n");
 
 						decrementColors(counters, cameron);
 						delete [] cameron;
@@ -247,7 +247,7 @@ void computeCourses(Tree * tracks, int * argv, int argc){
 	}
 
 terminal:
-	printf("\n\n");
+	//printf("\n\n");
 	lisp->print();
 
 }
