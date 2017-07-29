@@ -12,26 +12,9 @@ Node * getNodeByCourse(Tree * courses, int num);
 
 int main(int argc, char ** argv){
 	printf("Inputs are CSE, CGV, SoftEngr, MI, DBIS, Systems, Security, FCS, PL\n"); 
-			//	printf("Why is cryptography double counted between DBIS and Systems, type in ./a.out DBIS Systems\n");
-			/*	if (argc == 1){
-				printf("Enter the tracks you want to obtain and the output will be the minimum courses required to get that track.\n
-				The inputs for each track to use in the command line are as follows:\n
-				\n
-				\tMachine Intelligence: MI\n
-				\tComputational Science and Engineering: CSE\n
-				\tDatabase and Information Search: DBIS\n
-				\tSoftware Engineering: SoftEngr\n
-				\tSystems: Systems\n
-				\tSecurity: Security\n
-				\tFoundations of Computer Science\n
-				\tComputer Graphics and Visualization\n
-				\tProgramming Languages: PL\n");
-				return -1;
-				}
-			 */
-			//prepares an array of the tracks that are inputs
-			int size = 0;
-			//determines if inputs are valid and counts number of valid arguments
+	//prepares an array of the tracks that are inputs
+	int size = 0;
+	//determines if inputs are valid and counts number of valid arguments
 	for (int i = 1; i < argc; i++){
 		printf("%d\n", getTrackNumber(argv[i]));
 		if (getTrackNumber(argv[i]) == -1){
@@ -61,7 +44,9 @@ int main(int argc, char ** argv){
 	//Creates the Edges of the Bipartite Graph
 	readEdges(courses, tracks, list);
 	printf("\n\nNumber: ");
-	computeCourses(tracks, colors, size);
+	int p[] = {434, 334, 314, 471, 416, 381, 354, 489, 352};
+	computeTracks(courses, p, 9);
+
 }
 
 
