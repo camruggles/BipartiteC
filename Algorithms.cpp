@@ -255,9 +255,11 @@ terminal:
 }
 
 void computeTracks(Tree * curriculum, int *courses, int n){
-	Node * node;
+	Node * node;//Recycled pointer for the node being analyzed
 	//int reqs[] = {7, 6, 6, 7, 6, 6, 6, 6, 6};
-	int reqs[] = {0, 0, 0, 0, 0, 0, 0, 0, 0};
+	int reqs[] = {0, 0, 0, 0, 0, 0, 0, 0, 0}; // the array for the counters for the number of courses enrolled in each track
+
+	//goes through all of the courses, gets the colored edges of each course, and increments the counter array above
 	for (int i = 0; i < n; i++){
 		node = getNodeByCourse(curriculum, courses[i]);	
 		int * r = getColors(node);
@@ -266,6 +268,7 @@ void computeTracks(Tree * curriculum, int *courses, int n){
 
 	}
 
+//prints the counter array along with the string that describes which track it is
 	for (int i = 0; i < 9; i++){
 	switch (i){
 			case 0: printf("CSE\n"); break;
@@ -283,48 +286,6 @@ void computeTracks(Tree * curriculum, int *courses, int n){
 
 	}
 return;
-	printf("\n");
-	//for each in totalCourseReqCount
-	int min = 0;
-	int end[9];
-	//O(n^2)
-	for (int i = 0; i < 9; i++){
-		for (int j = 0; j < 9; j++){
-		//	printf("%d, ", reqs[j]);
-		//	printf("\n");
-			if (reqs[j] < reqs[min]){ 
-		//		printf("%d < %d\n", min, j);
-				min = j;
-
-			}
-
-		}
-	//	printf("min: %d\n", min);
-		reqs[min] = 900000000;
-		end[i] = min;
-		min = 0;
-
-	}
-	for (int i = 0; i < 9; i++){
-		switch (end[i]){
-			case 0: printf("CSE\n"); break;
-			case 1:printf("CGV\n"); break;
-			case 2:printf("MI\n"); break;
-			case 3:printf("DBIS\n"); break;
-			case 4:printf("FCS\n"); break;
-			case 5:printf("SoftEngr\n"); break;
-			case 6:printf("Systems\n"); break;
-			case 7:printf("PL\n"); break;
-			case 8:printf("Security\n"); break;
-
-		}	
-
-	}
-	//isolate values less than 0
-	//print them in ascending order
-
-	//print the rest of the values in ascending order
-
 }
 
 
