@@ -250,7 +250,7 @@ terminal:
 	int cameron = 0;
 	cameron++;
 	//printf("\n\n");
-	//	lisp->print();
+	lisp->print();
 
 }
 

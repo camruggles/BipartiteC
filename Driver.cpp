@@ -11,29 +11,66 @@ Node * getNodeByTrackName(Tree * tracks, char * c);
 Node * getNodeByCourse(Tree * courses, int num);
 
 int main(int argc, char ** argv){
+
+	printf("\n\n\n");
+	printf("Input flags are -c for courses or -t for tracks\n");
 	printf("Inputs are CSE, CGV, SoftEngr, MI, DBIS, Systems, Security, FCS, PL\n"); 
-	//prepares an array of the tracks that are inputs
+	printf("Or inputs can be the first 3 numbers of whatever course you want to take (ex. CS 30700 -> 307)\n");
+	printf("\n\n");
+
+	//handles if the args are too few
+	if (argc == 1) return 0;
+	if (argc == 2) 
+	{
+		printf("please populate the input with tracks or courses\n");
+		return 0;
+	}
+
+	if (argv[1][0] != '-'){
+		printf("Please include a \'-\' flag to determine course of execution\n");
+		return 0;
+	}
+
+	char flagBool = 0;
+
+	char c = argv[1][1];
+	switch(c){
+		case 'c': flagBool = 1; break;
+		case 't': flagBool = 0; break;
+		default:
+			  printf("flag has to be either -c or -t\n");
+			  return 0;
+
+
+	}
+
 	int size = 0;
-	//determines if inputs are valid and counts number of valid arguments
-	for (int i = 1; i < argc; i++){
-		printf("%d\n", getTrackNumber(argv[i]));
-		if (getTrackNumber(argv[i]) == -1){
-			return -1;
+	int * colors;
+	if (!flagBool){ //this covers the -t case
+		//determines if inputs are valid and counts number of valid arguments
+		for (int i = 2; i < argc; i++){
+//			printf("%d\n", getTrackNumber(argv[i]));
+			if (getTrackNumber(argv[i]) == -1){
+				return -1;
+			}
+			++size;
 		}
-		++size;
+
+		//creates a separate array with the enumerated types for tracks and uses them to transfer information to algorithm later
+		colors = new int[size];;
+		for (int i = 2; i < argc; i++){
+			colors[i-2] = getTrackNumber(argv[i]);
+
+		}
 	}
 
-	//creates a separate array with the enumerated types for tracks and uses them to transfer information to algorithm later
-	int colors[size];
-	for (int i = 1; i < size+1; i++){
-		colors[i-1] = getTrackNumber(argv[i]);
-
-	}
 
 	//Initiates original edge list, as well as the hash trees
 	List * list = new List();
 	Tree * courses = new Tree();
 	Tree * tracks = new Tree();
+
+	//Consider deleting this block.
 	courses->side = COURSE;
 	tracks->side = TRACK;
 
@@ -43,9 +80,36 @@ int main(int argc, char ** argv){
 
 	//Creates the Edges of the Bipartite Graph
 	readEdges(courses, tracks, list);
-	printf("\n\nNumber: ");
-	int p[] = {434, 334, 314, 471, 416, 381, 354, 489, 352};
-	computeTracks(courses, p, 9);
+	int * courseSelection;
+	if (flagBool){
+		int course;
+		for (int i = 2; i < argc; i++){
+			course = atoi(argv[i]);		
+			if (getNodeByCourse(courses, course) != NULL){
+				size++;
+			}
+			else
+				return -1;
+		}
+
+		courseSelection = new int[size];
+
+		for (int i = 2; i < argc; i++){
+			course = atoi(argv[i]);
+			courseSelection[i-2] = course;
+
+		}
+
+	}
+
+	if (flagBool) {
+		computeTracks(courses, courseSelection, size);
+	}
+	else{
+		computeCourses(tracks, colors, size);
+	}
+	//printf("\n\nNumber: ");
+	//computeTracks(courses, p, 9);
 
 }
 

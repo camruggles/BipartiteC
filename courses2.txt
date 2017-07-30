@@ -28,5 +28,5 @@ CS 514:Numerical Analysis
 CS 515:Numerical Linear Algebra
 MA 366:Ordinary Differential Equations
 MA 266:Ordinary Differential Equations
-STAT 512:Applied Linear Regression
 MA 416:Probability
+STAT 512:Applied Linear Regression
