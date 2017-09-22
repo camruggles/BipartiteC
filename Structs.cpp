@@ -1,5 +1,8 @@
 //Create Makefile
 #include "Structs.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 //Linking h files and class files
 
 //86, 96, 101, 179

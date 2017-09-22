@@ -1,4 +1,7 @@
 #include "Structs.h"
+#include <stdlib.h>
+#include <stdio.h>
+
 
 
 Node * 

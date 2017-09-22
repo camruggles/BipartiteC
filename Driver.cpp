@@ -13,26 +13,24 @@ Node * getNodeByCourse(Tree * courses, int num);
 int main(int argc, char ** argv){
 
 	printf("\n\n\n");
-	printf("Input flags are -c for courses or -t for tracks\n");
 	printf("Inputs are CSE, CGV, SoftEngr, MI, DBIS, Systems, Security, FCS, PL\n"); 
-	printf("Or inputs can be the first 3 numbers of whatever course you want to take (ex. CS 30700 -> 307)\n");
 	printf("\n\n");
 
 	//handles if the args are too few
 	if (argc == 1) return 0;
-	if (argc == 2) 
+/*	if (argc == 2) 
 	{
 		printf("please populate the input with tracks or courses\n");
 		return 0;
 	}
-
-	if (argv[1][0] != '-'){
+*/
+/*	if (argv[1][0] != '-'){
 		printf("Please include a \'-\' flag to determine course of execution\n");
 		return 0;
 	}
-
+*/
 	char flagBool = 0;
-
+/*
 	char c = argv[1][1];
 	switch(c){
 		case 'c': flagBool = 1; break;
@@ -43,12 +41,12 @@ int main(int argc, char ** argv){
 
 
 	}
-
+*/
 	int size = 0;
 	int * colors;
 	if (!flagBool){ //this covers the -t case
 		//determines if inputs are valid and counts number of valid arguments
-		for (int i = 2; i < argc; i++){
+		for (int i = 1; i < argc; i++){
 //			printf("%d\n", getTrackNumber(argv[i]));
 			if (getTrackNumber(argv[i]) == -1){
 				return -1;
@@ -58,8 +56,8 @@ int main(int argc, char ** argv){
 
 		//creates a separate array with the enumerated types for tracks and uses them to transfer information to algorithm later
 		colors = new int[size];;
-		for (int i = 2; i < argc; i++){
-			colors[i-2] = getTrackNumber(argv[i]);
+		for (int i = 1; i < argc; i++){
+			colors[i-1] = getTrackNumber(argv[i]);
 
 		}
 	}
@@ -80,6 +78,7 @@ int main(int argc, char ** argv){
 
 	//Creates the Edges of the Bipartite Graph
 	readEdges(courses, tracks, list);
+//thign
 	int * courseSelection;
 	if (flagBool){
 		int course;
@@ -151,7 +150,7 @@ void createCourseNodes(Tree * courses)
 		courses->nodes[num] = new Node(new Course(courseName, num, s));
 	}
 
-	fclose(f);
+//	fclose(f);
 
 }
 
@@ -178,7 +177,7 @@ void createTrackNodes(Tree * tracks)
 		tracks->nodes[i]->track->reqCounter = reqs;
 
 	}
-	fclose(f);
+//	fclose(f);
 
 
 }
@@ -196,14 +195,14 @@ void readEdges(Tree * courses, Tree * tracks, List * list){
 
 	char * track;
 	char * flag;
-	char * prefix;
+//	char * prefix;
 	char * courseNum;
 
 	//information about the courses and their relationship to the track
 	bool required;
 	bool alt = false;
 	bool trigger = false;
-	symbol s;
+//	symbol s = CS;
 	int murphy = 0;
 
 	while ( fgets(buffer, 100, f) != NULL){
@@ -213,7 +212,8 @@ void readEdges(Tree * courses, Tree * tracks, List * list){
 
 		if (flag == NULL ) break;
 		//parses information about course
-		prefix = strtok(NULL, ":");
+//prefix = 		
+strtok(NULL, ":");
 		courseNum = strtok(NULL, "\n"); 
 
 		//parses flag information
@@ -229,12 +229,13 @@ void readEdges(Tree * courses, Tree * tracks, List * list){
 		}
 
 		//parses department information
-		if (!strcmp(prefix, "MA"))
+/*		if (!strcmp(prefix, "MA"))
 			s = MA;	
 		else if (!strcmp(prefix, "CS"))
 			s = CS;
 		else if (!strcmp(prefix, "STAT"))
 			s = STAT;
+*/
 		//converts string to int
 		murphy = atoi(courseNum);
 		//retrieves node values to connect to the edge
